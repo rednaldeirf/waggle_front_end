@@ -6,14 +6,14 @@ import waggleLogo from '../assets/Waggle(orange).png';
 // Testimonials and FAQs
 const testimonials = [
   {
-    name: "Alex P.",
+    name: "Emre",
     text: "Waggle made finding my new best friend so easy and stress-free.",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+    avatar: "https://randomuser.me/api/portraits/men/34.jpg"
   },
   {
-    name: "Samantha R.",
+    name: "Raul",
     text: "As a shelter, Waggle helped us connect with more loving families than ever before.",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+    avatar: "https://randomuser.me/api/portraits/men/45.jpg"
   }
 ];
 

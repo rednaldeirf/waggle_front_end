@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 // import React, { useState } from 'react';
 // import { Button, Container, Typography, Card, CardContent, Avatar, Accordion, AccordionSummary, AccordionDetails, Dialog, DialogTitle, DialogContent, DialogActions, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -142,6 +143,8 @@
 
 // export default LandingPage;
 
+=======
+>>>>>>> Stashed changes
 import React, { useState } from "react";
 import {
   Button,
@@ -193,7 +196,6 @@ const faqs = [
     a: "Absolutely! You can schedule a visit with the shelter through Waggle.",
   },
 ];
-
 const LandingPage = ({ setUser }) => {
   const [open, setOpen] = useState(false);
   const [signInForm, setSignInForm] = useState({ username: "", password: "" });
@@ -212,10 +214,7 @@ const LandingPage = ({ setUser }) => {
     e.preventDefault();
     try {
       let user;
-
       if (signInType === "user") {
-
-
         user = await userSignIn(signInForm);
       } else {
         user = await shelterSignIn(signInForm);
@@ -223,38 +222,7 @@ const LandingPage = ({ setUser }) => {
       setUser(user);
       handleClose();
     } catch (err) {
-
       setError('Invalid username or password');
-    }
-  };
-
-const LandingPage = ({ setUser }) => {
-  const [open, setOpen] = useState(false);
-  const [signInForm, setSignInForm] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
-  const [signInType, setSignInType] = useState("user");
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    setError("");
-    setSignInForm({ username: "", password: "" });
-  };
-  const handleChange = (e) => {
-    setSignInForm({ ...signInForm, [e.target.name]: e.target.value });
-  };
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    try {
-      let user;
-      if (signInType === "user") {
-        user = await userSignIn(signInForm);
-      } else {
-        user = await shelterSignIn(signInForm);
-      }
-      setUser(user);
-      handleClose();
-    } catch (err) {
-      setError("Invalid username or password");
     }
   };
   return (
@@ -276,7 +244,6 @@ const LandingPage = ({ setUser }) => {
         >
           The easiest way to adopt a pet from local shelters.
         </Typography>
-
         <div className="Sign-up">
         <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
           <Button
@@ -288,12 +255,10 @@ const LandingPage = ({ setUser }) => {
             Sign-Up
           </Button>
           <Button
-        
             variant="outlined"
             color="primary"
             size="large"
             onClick={handleOpen}
-            
           >
             Sign In
           </Button>
@@ -352,67 +317,19 @@ const LandingPage = ({ setUser }) => {
             </DialogActions>
           </form>
         </Dialog>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
-          <Button variant="contained" color="primary" size="large" href="/register">
-            Register
-          </Button>
-          <Button variant="outlined" color="primary" size="large" onClick={handleOpen}>
-            Sign In
-          </Button>
-        </div>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Sign In</DialogTitle>
-          <ToggleButtonGroup value={signInType} exclusive onChange={(e, newType) => { if (newType) setSignInType(newType); }} sx={{ mb: 2, width: '100%' }}>
-            <ToggleButton value="user" sx={{ flex: 1 }}>User</ToggleButton>
-            <ToggleButton value="shelter" sx={{ flex: 1 }}>Shelter</ToggleButton>
-          </ToggleButtonGroup>
-          <form onSubmit={handleSignIn}>
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Username"
-                name="username"
-                fullWidth
-                value={signInForm.username}
-                onChange={handleChange}
-                required
-              />
-              <TextField
-                margin="dense"
-                label="Password"
-                name="password"
-                type="password"
-                fullWidth
-                value={signInForm.password}
-                onChange={handleChange}
-                required
-              />
-              {error && <Typography color="error" variant="body2">{error}</Typography>}
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button type="submit" variant="contained" color="primary">Sign In</Button>
-            </DialogActions>
-          </form>
-        </Dialog>
       </div>
       {/* HOW IT WORKS */}
-
       <div className="how-waggle-works">
         <h2>How Waggle Works</h2>
-
         <div className="waggle-cards">
           <div className="waggle-card">
             <h3>1. Create Your Profile</h3>
             <p>Sign up and tell us about yourself or your organization.</p>
           </div>
-
           <div className="waggle-card">
             <h3>2. Browse Pets</h3>
             <p>Explore a list of pets looking for homes.</p>
           </div>
-
           <div className="waggle-card">
             <h3>3. Apply & Adopt</h3>
             <p>Submit your adoption request and connect with a shelter!</p>
@@ -495,5 +412,4 @@ const LandingPage = ({ setUser }) => {
     </div>
   );
 };
-
 export default LandingPage;

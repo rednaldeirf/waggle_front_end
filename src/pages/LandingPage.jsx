@@ -1,7 +1,9 @@
-//  import React from 'react';
-// import { Button, Container, Typography, Card, CardContent, Avatar, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import waggleLogo from '../assets/Waggle(orange).png';
+import React, { useState } from 'react';
+import { Button, Container, Typography, Card, CardContent, Avatar, Accordion, AccordionSummary, AccordionDetails, Dialog, DialogTitle, DialogContent, DialogActions, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import waggleLogo from '../assets/Waggle(orange).png';
+import { signIn as userSignIn } from '../services/users';
+
 
 // // Testimonials and FAQs
 // const testimonials = [
@@ -191,6 +193,7 @@ const faqs = [
     a: "Absolutely! You can schedule a visit with the shelter through Waggle.",
   },
 ];
+
 const LandingPage = ({ setUser }) => {
   const [open, setOpen] = useState(false);
   const [signInForm, setSignInForm] = useState({ username: "", password: "" });
@@ -209,7 +212,10 @@ const LandingPage = ({ setUser }) => {
     e.preventDefault();
     try {
       let user;
+
       if (signInType === "user") {
+
+
         user = await userSignIn(signInForm);
       } else {
         user = await shelterSignIn(signInForm);
@@ -217,9 +223,12 @@ const LandingPage = ({ setUser }) => {
       setUser(user);
       handleClose();
     } catch (err) {
-      setError("Invalid username or password");
+
+      setError('Invalid username or password');
     }
   };
+
+
   return (
     <div style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
       {/* LOGO + HEADLINE */}
@@ -239,6 +248,7 @@ const LandingPage = ({ setUser }) => {
         >
           The easiest way to adopt a pet from local shelters.
         </Typography>
+
         <div className="Sign-up">
         <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
           <Button
@@ -277,6 +287,7 @@ const LandingPage = ({ setUser }) => {
             <ToggleButton value="shelter" sx={{ flex: 1 }}>
               Shelter
             </ToggleButton>
+
           </ToggleButtonGroup>
           <form onSubmit={handleSignIn}>
             <DialogContent>
@@ -300,6 +311,7 @@ const LandingPage = ({ setUser }) => {
                 onChange={handleChange}
                 required
               />
+
               {error && (
                 <Typography color="error" variant="body2">
                   {error}
@@ -311,6 +323,7 @@ const LandingPage = ({ setUser }) => {
               <Button type="submit" variant="contained" color="primary">
                 Sign In
               </Button>
+
             </DialogActions>
           </form>
         </Dialog>

@@ -3,11 +3,7 @@ import { Button, Container, Typography, Card, CardContent, Avatar, Accordion, Ac
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import waggleLogo from '../assets/Waggle(orange).png';
 import { signIn as userSignIn } from '../services/users';
-import { signIn as shelterSignIn } from '../services/shelters';
-//  import React from 'react';
-// import { Button, Container, Typography, Card, CardContent, Avatar, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import waggleLogo from '../assets/Waggle(orange).png';
+
 
 // // Testimonials and FAQs
 // const testimonials = [
@@ -200,26 +196,26 @@ const faqs = [
 
 const LandingPage = ({ setUser }) => {
   const [open, setOpen] = useState(false);
-  const [signInForm, setSignInForm] = useState({ username: '', password: '' });
-  const [error, setError] = useState('');
-  const [signInType, setSignInType] = useState('user');
-
+  const [signInForm, setSignInForm] = useState({ username: "", password: "" });
+  const [error, setError] = useState("");
+  const [signInType, setSignInType] = useState("user");
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setError('');
-    setSignInForm({ username: '', password: '' });
+    setError("");
+    setSignInForm({ username: "", password: "" });
   };
-
   const handleChange = (e) => {
     setSignInForm({ ...signInForm, [e.target.name]: e.target.value });
   };
-
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
       let user;
-      if (signInType === 'user') {
+
+      if (signInType === "user") {
+
+
         user = await userSignIn(signInForm);
       } else {
         user = await shelterSignIn(signInForm);
@@ -227,6 +223,7 @@ const LandingPage = ({ setUser }) => {
       setUser(user);
       handleClose();
     } catch (err) {
+
       setError('Invalid username or password');
     }
   };
@@ -279,6 +276,7 @@ const LandingPage = ({ setUser }) => {
         >
           The easiest way to adopt a pet from local shelters.
         </Typography>
+
         <div className="Sign-up">
         <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
           <Button

@@ -31,36 +31,3 @@ body {
 } 
 
 
-.register-page {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.register-page h2 {
-  text-align: center;
-}
-
-.register-page form {
-  display: flex;
-  flex-direction: column;
-}
-
-.register-page label {
-  margin: 0.5rem 0 0.2rem;
-}
-
-.register-page input {
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.register-page button {
-  padding: 0.7rem;
-  background-color: teal;
-  color: white;
-  border: none;
-  cursor: pointer;
-}

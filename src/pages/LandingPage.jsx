@@ -3,59 +3,219 @@ import { Button, Container, Typography, Card, CardContent, Avatar, Accordion, Ac
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import waggleLogo from '../assets/Waggle(orange).png';
 import { signIn as userSignIn } from '../services/users';
-import { signIn as shelterSignIn } from '../services/shelters';
 
+
+// // Testimonials and FAQs
+// const testimonials = [
+//   {
+//     name: "Emre",
+//     text: "Waggle made finding my new best friend so easy and stress-free.",
+//     avatar: "https://randomuser.me/api/portraits/men/34.jpg"
+//   },
+//   {
+//     name: "Raul",
+//     text: "As a shelter, Waggle helped us connect with more loving families than ever before.",
+//     avatar: "https://randomuser.me/api/portraits/men/45.jpg"
+//   }
+// ];
+
+// const faqs = [
+//   {
+//     q: "Is Waggle free to use?",
+//     a: "Yes! Waggle is completely free for adopters and shelters."
+//   },
+//   {
+//     q: "How do I know the pets are available?",
+//     a: "All listings are updated in real-time by our partner shelters."
+//   },
+//   {
+//     q: "Can I visit the pet before adopting?",
+//     a: "Absolutely! You can schedule a visit with the shelter through Waggle."
+//   }
+// ];
+
+// const LandingPage = () => {
+//   return (
+//     <div style={{ padding: '40px 20px', maxWidth: '900px', margin: '0 auto' }}>
+
+//       {/* LOGO + HEADLINE */}
+//       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+//         <img
+//           src={waggleLogo}
+//           alt="Waggle Logo"
+//           style={{ width: '120px', marginBottom: '20px', borderRadius: '12px' }}
+//         />
+//         <Typography variant="h3" gutterBottom>Find Your New Best Friend with Waggle</Typography>
+//         <Typography variant="h6" color="text.secondary" style={{ marginBottom: '20px' }}>
+//           The easiest way to adopt a pet from local shelters.
+//         </Typography>
+//         <Button variant="contained" color="primary" size="large" href="/register">Get Started</Button>
+//       </div>
+
+//       {/* HOW IT WORKS */}
+//       <div style={{ marginBottom: '40px' }}>
+//         <Typography variant="h4" gutterBottom>How Waggle Works</Typography>
+
+//         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+//           <Card style={{ flex: '1 1 250px' }}>
+//             <CardContent>
+//               <Typography variant="h6">1. Create Your Profile</Typography>
+//               <Typography>Sign up and tell us about yourself or your organization.</Typography>
+//             </CardContent>
+//           </Card>
+//           <Card style={{ flex: '1 1 250px' }}>
+//             <CardContent>
+//               <Typography variant="h6">2. Browse Pets</Typography>
+//               <Typography>Explore a list of pets looking for homes.</Typography>
+//             </CardContent>
+//           </Card>
+//           <Card style={{ flex: '1 1 250px' }}>
+//             <CardContent>
+//               <Typography variant="h6">3. Apply & Adopt</Typography>
+//               <Typography>Submit your adoption request and connect with a shelter!</Typography>
+//             </CardContent>
+//           </Card>
+//         </div>
+//       </div>
+
+//       {/* BENEFITS */}
+//       <div style={{ marginBottom: '40px' }}>
+//         <Typography variant="h4" gutterBottom>Why Choose Waggle?</Typography>
+//         <ul style={{ fontSize: '1.1rem' }}>
+//           <li>Simple, fast, and secure adoption process</li>
+//           <li>Connect directly with trusted shelters</li>
+//           <li>Personalized pet recommendations</li>
+//           <li>Track your adoption status</li>
+//         </ul>
+//       </div>
+
+//       {/* MISSION */}
+//       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+//         <Typography variant="h4" gutterBottom>Our Mission</Typography>
+//         <Typography color="text.secondary">
+//           Waggle was founded by animal lovers who believe every pet deserves a loving home.
+//         </Typography>
+//       </div>
+
+//       {/* TESTIMONIALS */}
+//       <div style={{ marginBottom: '40px' }}>
+//         <Typography variant="h4" gutterBottom>Success Stories</Typography>
+//         {testimonials.map((t, index) => (
+//           <Card key={index} style={{ marginBottom: '20px' }}>
+//             <CardContent style={{ display: 'flex', alignItems: 'center' }}>
+//               <Avatar src={t.avatar} style={{ marginRight: '16px' }} />
+//               <div>
+//                 <Typography variant="subtitle1">{t.name}</Typography>
+//                 <Typography variant="body2" color="text.secondary">{t.text}</Typography>
+//               </div>
+//             </CardContent>
+//           </Card>
+//         ))}
+//       </div>
+
+//       {/* FAQ */}
+//       <div style={{ marginBottom: '40px' }}>
+//         <Typography variant="h4" gutterBottom>FAQs</Typography>
+//         {faqs.map((faq, i) => (
+//           <Accordion key={i}>
+//             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+//               <Typography><strong>{faq.q}</strong></Typography>
+//             </AccordionSummary>
+//             <AccordionDetails>
+//               <Typography>{faq.a}</Typography>
+//             </AccordionDetails>
+//           </Accordion>
+//         ))}
+//       </div>
+
+//       {/* FINAL CTA */}
+//       <div style={{ textAlign: 'center' }}>
+//         <Typography variant="h5" gutterBottom>Ready to meet your new best friend?</Typography>
+//         <Button variant="contained" color="primary" size="large" href="/register">
+//           Start Your Journey with Waggle
+//         </Button>
+//       </div>
+
+//     </div>
+//   );
+// };
+
+// export default LandingPage;
+
+import React, { useState } from "react";
+import {
+  Button,
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import waggleLogo from "../assets/Waggle(orange).png";
+import { signIn as userSignIn } from "../services/users";
+import { signIn as shelterSignIn } from "../services/shelters";
+import "./LandingPage.css";
 // Testimonials and FAQs
 const testimonials = [
   {
     name: "Emre",
     text: "Waggle made finding my new best friend so easy and stress-free.",
-    avatar: "https://randomuser.me/api/portraits/men/34.jpg"
+    avatar: "https://randomuser.me/api/portraits/men/34.jpg",
   },
   {
     name: "Raul",
     text: "As a shelter, Waggle helped us connect with more loving families than ever before.",
-    avatar: "https://randomuser.me/api/portraits/men/45.jpg"
-  }
+    avatar: "https://randomuser.me/api/portraits/men/45.jpg",
+  },
 ];
-
 const faqs = [
   {
     q: "Is Waggle free to use?",
-    a: "Yes! Waggle is completely free for adopters and shelters."
+    a: "Yes! Waggle is completely free for adopters and shelters.",
   },
   {
     q: "How do I know the pets are available?",
-    a: "All listings are updated in real-time by our partner shelters."
+    a: "All listings are updated in real-time by our partner shelters.",
   },
   {
     q: "Can I visit the pet before adopting?",
-    a: "Absolutely! You can schedule a visit with the shelter through Waggle."
-  }
+    a: "Absolutely! You can schedule a visit with the shelter through Waggle.",
+  },
 ];
 
 const LandingPage = ({ setUser }) => {
   const [open, setOpen] = useState(false);
-  const [signInForm, setSignInForm] = useState({ username: '', password: '' });
-  const [error, setError] = useState('');
-  const [signInType, setSignInType] = useState('user');
-
+  const [signInForm, setSignInForm] = useState({ username: "", password: "" });
+  const [error, setError] = useState("");
+  const [signInType, setSignInType] = useState("user");
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setError('');
-    setSignInForm({ username: '', password: '' });
+    setError("");
+    setSignInForm({ username: "", password: "" });
   };
-
   const handleChange = (e) => {
     setSignInForm({ ...signInForm, [e.target.name]: e.target.value });
   };
-
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
       let user;
-      if (signInType === 'user') {
+
+      if (signInType === "user") {
+
+
         user = await userSignIn(signInForm);
       } else {
         user = await shelterSignIn(signInForm);
@@ -63,37 +223,71 @@ const LandingPage = ({ setUser }) => {
       setUser(user);
       handleClose();
     } catch (err) {
+
       setError('Invalid username or password');
     }
   };
 
-  return (
-    <div style={{ padding: '40px 20px', maxWidth: '900px', margin: '0 auto' }}>
 
+  return (
+    <div style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}>
       {/* LOGO + HEADLINE */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <img 
-          src={waggleLogo} 
-          alt="Waggle Logo" 
-          style={{ width: '120px', marginBottom: '20px', borderRadius: '12px' }} 
+      <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <img
+          src={waggleLogo}
+          alt="Waggle Logo"
+          style={{ width: "120px", marginBottom: "20px", borderRadius: "12px" }}
         />
-        <Typography variant="h3" gutterBottom>Find Your New Best Friend with Waggle</Typography>
-        <Typography variant="h6" color="text.secondary" style={{ marginBottom: '20px' }}>
+        <Typography variant="h3" gutterBottom>
+          Find Your New Best Friend with Waggle
+        </Typography>
+        <Typography
+          variant="h6"
+          color="text.secondary"
+          style={{ marginBottom: "20px" }}
+        >
           The easiest way to adopt a pet from local shelters.
         </Typography>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
-          <Button variant="contained" color="primary" size="large" href="/register">
-            Register
+
+        <div className="Sign-up">
+        <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            href="/register"
+          >
+            Sign-Up
           </Button>
-          <Button variant="outlined" color="primary" size="large" onClick={handleOpen}>
+          <Button
+        
+            variant="outlined"
+            color="primary"
+            size="large"
+            onClick={handleOpen}
+            
+          >
             Sign In
           </Button>
+          </div>
         </div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Sign In</DialogTitle>
-          <ToggleButtonGroup value={signInType} exclusive onChange={(e, newType) => { if (newType) setSignInType(newType); }} sx={{ mb: 2, width: '100%' }}>
-            <ToggleButton value="user" sx={{ flex: 1 }}>User</ToggleButton>
-            <ToggleButton value="shelter" sx={{ flex: 1 }}>Shelter</ToggleButton>
+          <ToggleButtonGroup
+            value={signInType}
+            exclusive
+            onChange={(e, newType) => {
+              if (newType) setSignInType(newType);
+            }}
+            sx={{ mb: 2, width: "100%" }}
+          >
+            <ToggleButton value="user" sx={{ flex: 1 }}>
+              User
+            </ToggleButton>
+            <ToggleButton value="shelter" sx={{ flex: 1 }}>
+              Shelter
+            </ToggleButton>
+
           </ToggleButtonGroup>
           <form onSubmit={handleSignIn}>
             <DialogContent>
@@ -117,84 +311,97 @@ const LandingPage = ({ setUser }) => {
                 onChange={handleChange}
                 required
               />
-              {error && <Typography color="error" variant="body2">{error}</Typography>}
+
+              {error && (
+                <Typography color="error" variant="body2">
+                  {error}
+                </Typography>
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button type="submit" variant="contained" color="primary">Sign In</Button>
+              <Button type="submit" variant="contained" color="primary">
+                Sign In
+              </Button>
+
             </DialogActions>
           </form>
         </Dialog>
       </div>
-
       {/* HOW IT WORKS */}
-      <div style={{ marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>How Waggle Works</Typography>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Card style={{ flex: '1 1 250px' }}>
-            <CardContent>
-              <Typography variant="h6">1. Create Your Profile</Typography>
-              <Typography>Sign up and tell us about yourself or your organization.</Typography>
-            </CardContent>
-          </Card>
-          <Card style={{ flex: '1 1 250px' }}>
-            <CardContent>
-              <Typography variant="h6">2. Browse Pets</Typography>
-              <Typography>Explore a list of pets looking for homes.</Typography>
-            </CardContent>
-          </Card>
-          <Card style={{ flex: '1 1 250px' }}>
-            <CardContent>
-              <Typography variant="h6">3. Apply & Adopt</Typography>
-              <Typography>Submit your adoption request and connect with a shelter!</Typography>
-            </CardContent>
-          </Card>
+      <div className="how-waggle-works">
+        <h2>How Waggle Works</h2>
+
+        <div className="waggle-cards">
+          <div className="waggle-card">
+            <h3>1. Create Your Profile</h3>
+            <p>Sign up and tell us about yourself or your organization.</p>
+          </div>
+
+          <div className="waggle-card">
+            <h3>2. Browse Pets</h3>
+            <p>Explore a list of pets looking for homes.</p>
+          </div>
+
+          <div className="waggle-card">
+            <h3>3. Apply & Adopt</h3>
+            <p>Submit your adoption request and connect with a shelter!</p>
+          </div>
         </div>
       </div>
-
       {/* BENEFITS */}
-      <div style={{ marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>Why Choose Waggle?</Typography>
-        <ul style={{ fontSize: '1.1rem' }}>
+      <div style={{ marginBottom: "40px" }}>
+        <Typography variant="h4" gutterBottom>
+          Why Choose Waggle?
+        </Typography>
+        <ul style={{ fontSize: "1.1rem" }}>
           <li>Simple, fast, and secure adoption process</li>
           <li>Connect directly with trusted shelters</li>
           <li>Personalized pet recommendations</li>
           <li>Track your adoption status</li>
         </ul>
       </div>
-
       {/* MISSION */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>Our Mission</Typography>
+      <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <Typography variant="h4" gutterBottom>
+          Our Mission
+        </Typography>
         <Typography color="text.secondary">
-          Waggle was founded by animal lovers who believe every pet deserves a loving home.
+          Waggle was founded by animal lovers who believe every pet deserves a
+          loving home.
         </Typography>
       </div>
-
       {/* TESTIMONIALS */}
-      <div style={{ marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>Success Stories</Typography>
+      <div style={{ marginBottom: "40px" }}>
+        <Typography variant="h4" gutterBottom>
+          Success Stories
+        </Typography>
         {testimonials.map((t, index) => (
-          <Card key={index} style={{ marginBottom: '20px' }}>
-            <CardContent style={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar src={t.avatar} style={{ marginRight: '16px' }} />
+          <Card key={index} style={{ marginBottom: "20px" }}>
+            <CardContent style={{ display: "flex", alignItems: "center" }}>
+              <Avatar src={t.avatar} style={{ marginRight: "16px" }} />
               <div>
                 <Typography variant="subtitle1">{t.name}</Typography>
-                <Typography variant="body2" color="text.secondary">{t.text}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t.text}
+                </Typography>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
-
       {/* FAQ */}
-      <div style={{ marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>FAQs</Typography>
+      <div style={{ marginBottom: "40px" }}>
+        <Typography variant="h4" gutterBottom>
+          FAQs
+        </Typography>
         {faqs.map((faq, i) => (
           <Accordion key={i}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography><strong>{faq.q}</strong></Typography>
+              <Typography>
+                <strong>{faq.q}</strong>
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>{faq.a}</Typography>
@@ -202,15 +409,20 @@ const LandingPage = ({ setUser }) => {
           </Accordion>
         ))}
       </div>
-
       {/* FINAL CTA */}
-      <div style={{ textAlign: 'center' }}>
-        <Typography variant="h5" gutterBottom>Ready to meet your new best friend?</Typography>
-        <Button variant="contained" color="primary" size="large" href="/register">
+      <div style={{ textAlign: "center" }}>
+        <Typography variant="h5" gutterBottom>
+          Ready to meet your new best friend?
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          href="/register"
+        >
           Start Your Journey with Waggle
         </Button>
       </div>
-
     </div>
   );
 };

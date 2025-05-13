@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './Register.css';
 
 const Register = () => {
     // State to hold form input
@@ -26,14 +26,16 @@ const Register = () => {
     };
   
     return (
+        <div className="register-wrapper">
+
       <div className="register-page">
-        <h2>Register</h2>
+        <h2>Sign-Up</h2>
         <form onSubmit={handleSubmit}>
           <label>Username:</label>
           <input type="text" name="username" value={formData.username} onChange={handleChange} required />
   
-          <label>Email:</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+          {/* <label>Email:</label> */}
+          {/* <input type="email" name="email" value={formData.email} onChange={handleChange} required /> */}
   
           <label>Password:</label>
           <input type="password" name="password" value={formData.password} onChange={handleChange} required />
@@ -41,8 +43,9 @@ const Register = () => {
           <label>Confirm Password:</label>
           <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
   
-          <button type="submit">Register</button>
+          <button type="submit">Sign-Up</button>
         </form>
+      </div>
       </div>
     );
   };

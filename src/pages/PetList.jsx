@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import PetCard from "../components/PetCard";
 import PetFilter from "../components/PetFilter";
 import { fetchPets, fetchBreeds, fetchShelters } from "../services/pets";
+import "./PetList.css";
+
 
 function PetList() {
   const { type } = useParams(); // 'dog' or 'cat'
@@ -33,34 +35,32 @@ function PetList() {
   }, [selectedBreed, selectedShelter, pets]);
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: 24 }}>
-      <h1>Available {type === "dog" ? "Dogs" : "Cats"}</h1>
-      <PetFilter
-        breeds={breeds}
-        shelters={shelters}
-        selectedBreed={selectedBreed}
-        selectedShelter={selectedShelter}
-        onBreedChange={setSelectedBreed}
-        onShelterChange={setSelectedShelter}
-      />
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "24px",
-        justifyContent: "center",
-        overflowY: "auto",
-        maxHeight: "70vh"
-      }}>
-        {filteredPets.map(pet => (
-          <PetCard
-            key={pet.id}
-            pet={pet}
-            onClick={() => navigate(`/pet/${pet.id}`)}
+    
+        <div className="pet-list-container">
+          <h1 className="pet-list-title">
+            Available {type === "dog" ? "Dogs" : "Cats"}
+          </h1>
+      
+          <PetFilter
+            breeds={breeds}
+            shelters={shelters}
+            selectedBreed={selectedBreed}
+            selectedShelter={selectedShelter}
+            onBreedChange={setSelectedBreed}
+            onShelterChange={setSelectedShelter}
           />
-        ))}
-      </div>
-    </div>
-  );
-}
+      
+          <div className="pet-grid">
+            {filteredPets.map((pet) => (
+              <PetCard
+                key={pet.id}
+                pet={pet}
+                onClick={() => navigate(`/pet/${pet.id}`)}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
 
 export default PetList;

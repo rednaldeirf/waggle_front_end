@@ -7,7 +7,7 @@ import { useContext } from "react";
 
 function Register() {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { setUser, setShelter } = useContext(UserContext);
 
   const [registrationType, setRegistrationType] = useState("user");
   const [form, setForm] = useState({
@@ -43,7 +43,8 @@ function Register() {
       };
       
       const userData = await signUp(requestBody);
-      setUser(userData);
+      setUser(userData.user);
+      setShelter(userData.shelter);
       
       if (registrationType === "user") {
         navigate("/preferences");

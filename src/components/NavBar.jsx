@@ -7,7 +7,7 @@ import waggleLogo from '../assets/Waggle(orange).png';
 // Simple NavBar component that shows different options based on whether user is logged in
 const NavBar = () => {
   // Get the current user from our context
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, shelter } = useContext(UserContext);
   const navigate = useNavigate();
 
   // Function to handle signing out
@@ -44,21 +44,34 @@ const NavBar = () => {
         {user ? (
           // If user is logged in, show these options
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            {/* Show different options based on user type */}
-            {user.is_shelter_owner ? (
-              // Shelter owner options
-              <Link 
-                to="/shelter-dashboard" 
-                style={{ 
-                  textDecoration: 'none', 
-                  color: '#4CAF50',
-                  padding: '8px 16px',
-                  border: '1px solid #4CAF50',
-                  borderRadius: '4px'
-                }}
-              >
-                Our Pets
-              </Link>
+            {shelter ? (
+              // Shelter options
+              <>
+                <Link 
+                  to="/shelter-dashboard" 
+                  style={{ 
+                    textDecoration: 'none', 
+                    color: '#4CAF50',
+                    padding: '8px 16px',
+                    border: '1px solid #4CAF50',
+                    borderRadius: '4px'
+                  }}
+                >
+                  Dashboard
+                </Link>
+                <Link 
+                  to="/inquiries" 
+                  style={{ 
+                    textDecoration: 'none', 
+                    color: '#4CAF50',
+                    padding: '8px 16px',
+                    border: '1px solid #4CAF50',
+                    borderRadius: '4px'
+                  }}
+                >
+                  Inquiries
+                </Link>
+              </>
             ) : (
               // Regular user options
               <>
@@ -84,9 +97,9 @@ const NavBar = () => {
                     borderRadius: '4px'
                   }}
                 >
-                  Preferences
+                  Pet List
                 </Link>
-                <Link 
+                {/* <Link 
                   to="/pets" 
                   style={{ 
                     textDecoration: 'none', 
@@ -97,7 +110,7 @@ const NavBar = () => {
                   }}
                 >
                   Pet List
-                </Link>
+                </Link> */}
               </>
             )}
             {/* Sign out button */}

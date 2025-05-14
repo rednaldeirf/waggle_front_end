@@ -202,7 +202,7 @@ const LandingPage = () => {
   const [signInType, setSignInType] = useState("user");
   const [error, setError] = useState("");
 
-  const { setUser } = useContext(UserContext);
+  const { setUser, setShelter } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleOpen = () => setOpen(true);
@@ -218,7 +218,8 @@ const LandingPage = () => {
     e.preventDefault();
     try {
       const userData = await userSignIn(signInForm);
-      setUser(userData);
+      setUser(userData.user);
+      setShelter(userData.shelter);
       
       if (signInType === "user") {
         navigate("/preferences");

@@ -4,14 +4,16 @@ import api from "./apiConfig";
 export const signUp = async (credentials) => {
   const resp = await api.post("/auth/sign-up/", credentials);
   localStorage.setItem("token", resp.data.access);
-  return resp.data.user;
+  const {user, shelter} = resp.data;
+  return {user, shelter};
 };
 
 // Login
 export const signIn = async (credentials) => {
   const resp = await api.post("/auth/sign-in/", credentials);
   localStorage.setItem("token", resp.data.access);
-  return resp.data.user;
+  const {user, shelter} = resp.data;
+  return {user, shelter};
 };
 
 // Sign out
@@ -25,7 +27,8 @@ export const verifyUser = async () => {
   if (token) {
     const resp = await api.get("/auth/verify/");
     localStorage.setItem("token", resp.data.access);
-    return resp.data.user;
+    const {user, shelter} = resp.data;
+    return {user, shelter};
   }
   return null;
 };

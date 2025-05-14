@@ -164,7 +164,9 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import waggleLogo from "../assets/Waggle(orange).png";
 import { signIn as userSignIn } from "../services/users";
-import { signIn as shelterSignIn } from "../services/shelters";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 // Testimonials and FAQs
 const testimonials = [
@@ -194,11 +196,15 @@ const faqs = [
   },
 ];
 
-const LandingPage = ({ setUser }) => {
+const LandingPage = () => {
   const [open, setOpen] = useState(false);
   const [signInForm, setSignInForm] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
   const [signInType, setSignInType] = useState("user");
+  const [error, setError] = useState("");
+
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
@@ -211,19 +217,17 @@ const LandingPage = ({ setUser }) => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      let user;
-
+      const userData = await userSignIn(signInForm);
+      setUser(userData);
+      
       if (signInType === "user") {
-
-
-        user = await userSignIn(signInForm);
+        navigate("/preferences");
       } else {
-        user = await shelterSignIn(signInForm);
+        navigate("/shelter-dashboard");
       }
-      setUser(user);
+      
       handleClose();
     } catch (err) {
-
       setError('Invalid username or password');
     }
   };

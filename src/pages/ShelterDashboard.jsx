@@ -9,7 +9,6 @@ import {
 
 import { Card, CardHeader, CardContent } from '../components/ui/card'
 import PetCard    from '../components/PetCard'
-import AdoptionForm from "./AdoptionForm";
 
 export default function ShelterDashboard() {
   const [pets, setPets] = useState([])
@@ -62,7 +61,7 @@ export default function ShelterDashboard() {
           <h2 className="text-xl font-semibold mb-4">Add New Pet</h2>
           <Card>
             <CardContent>
-              <NewPetForm />
+              {/* <NewPetForm /> */}
             </CardContent>
           </Card>
         </div>

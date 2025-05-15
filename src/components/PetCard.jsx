@@ -22,7 +22,7 @@ function PetCard({ pet, onClick }) {
       onKeyPress={e => { if (e.key === "Enter") onClick(); }}
     >
       <img
-        src={pet.photo}
+        src={pet.image_url}
         alt={pet.name}
         style={{
           width: "100%",

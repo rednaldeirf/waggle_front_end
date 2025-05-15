@@ -51,7 +51,7 @@ const faqs = [
     a: "Absolutely! You can schedule a visit with the shelter through Waggle.",
   },
 ];
-const LandingPage = ({ setUser }) => {
+const LandingPage = ({ }) => {
   const [open, setOpen] = useState(false);
   const [signInForm, setSignInForm] = useState({ username: "", password: "" });
   const [signInType, setSignInType] = useState("user");

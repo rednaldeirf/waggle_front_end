@@ -12,7 +12,7 @@ const getToken = () => {
 const api = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
-      ? "https://your-deployed-app.herokuapp.com"
+      ? "https://waggle-backend-910d4cca91b5.herokuapp.com"
       : "http://localhost:8000",
   headers: {
     'Content-Type': 'application/json',

@@ -12,13 +12,18 @@ export async function fetchPet(id) {
 }
 
 // Fetch all breeds for a type
-// export async function fetchBreeds(type) {
-//   const resp = await api.get(`/pets/breeds/?species=${type}`);
-//   return resp.data;
-// }
+export async function fetchBreeds(type) {
+  const resp = await api.get(`/pets/breeds/?species=${type}`);
+  return resp.data;
+}
 
 // Fetch all shelters
-// export async function fetchShelters() {
-//   const resp = await api.get("/shelters/");
-//   return resp.data;
-// } 
+export async function fetchShelters() {
+  const resp = await api.get("/shelters/");
+  return resp.data;
+} 
+
+export async function createPet(petData) {
+  const resp = await api.post("/pets/", petData)
+  return resp.data
+}  

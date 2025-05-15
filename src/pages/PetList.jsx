@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PetCard from "../components/PetCard";
 import PetFilter from "../components/PetFilter";
-import { fetchPets, fetchBreeds, fetchShelters } from "../services/pets";
-import "./PetList.css";
-
 import { fetchPets } from "../services/pets";
 
 function PetList() {
@@ -55,18 +52,10 @@ function PetList() {
             pet={pet}
             onClick={() => navigate(`/pet/${pet.id}`)}
           />
-      
-          <div className="pet-grid">
-            {filteredPets.map((pet) => (
-              <PetCard
-                key={pet.id}
-                pet={pet}
-                onClick={() => navigate(`/pet/${pet.id}`)}
-              />
-            ))}
-          </div>
-        </div>
-      );
-    }
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default PetList;

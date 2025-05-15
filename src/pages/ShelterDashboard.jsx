@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react'           // you need React + hooks
+import NewPetForm from '../components/NewPetForm'
+import { fetchPets } from '../services/pets'
+import { useNavigate } from 'react-router-dom'
 // only include Tabs if you actually use them:
 import {
   Tabs,
@@ -14,9 +17,20 @@ import AdoptionForm from "./AdoptionForm";
 export default function ShelterDashboard() {
   const [pets, setPets] = useState([])
   const [pending, setPending] = useState([])
-
+const navigate = useNavigate ()
   // fetch your data in useEffect…
-
+ useEffect(() => {
+    async function loadData() {
+        console.log("hey")
+      const allPets = await fetchPets();
+      console.log({allPets})
+      setPets(allPets);
+    
+      
+    }
+    loadData();
+  }, []);
+  
   return (
     <div className="p-6 space-y-8">
       {/* 1) Stats row */}
@@ -47,12 +61,19 @@ export default function ShelterDashboard() {
           <Card>
             <CardContent>
               {/* Replace this with a table or list */}
-              {pending.map((app) => (
+              {/* {pending.map((app) => (
                 <div key={app.id} className="flex justify-between py-2 border-b">
                   <span>{app.petName}</span>
                   <span className="text-sm text-gray-500">{app.status}</span>
                 </div>
-              ))}
+              ))} */}
+{pets && pets.map(pet=> {
+   return  <PetCard key={pet.id}
+    pet={pet}
+    onClick={() => navigate(`/pet/${pet.id}`)} />
+    
+})}
+
             </CardContent>
           </Card>
         </div>

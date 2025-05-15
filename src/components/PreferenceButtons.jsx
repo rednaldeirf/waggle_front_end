@@ -52,19 +52,20 @@ function PreferenceButtons({ onSelect }) {
           onMouseEnter={() => setHovered("cat")}
           onMouseLeave={() => setHovered(null)}
           style={{
-            background: "#FF9800",
-            color: "white",
-            border: "none",
-            borderRadius: "50%",
-            width: "100px",
-            height: "100px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "2.5rem",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-            transition: "background 0.2s",
+             background: "#FF9800",
+             color: "white",
+             border: "none",
+             borderRadius: "50%",
+             width: "100px",
+             height: "100px",
+             cursor: "pointer",
+             display: "flex",
+             alignItems: "center",
+             justifyContent: "center",
+             fontSize: "2.5rem",
+             boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+             transition: "background 0.2s",
+          
           }}
           aria-label="Cat"
         >

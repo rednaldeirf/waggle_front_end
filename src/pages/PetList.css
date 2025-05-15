@@ -1,0 +1,99 @@
+/* PetList.css */
+
+.pet-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: "Segoe UI", sans-serif;
+    background: #f9f9fc;
+    min-height: 100vh;
+  }
+  
+  /* Title */
+  .pet-list-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #34495e;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px #e0e0e0;
+  }
+  
+  /* Filter area */
+  .pet-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .pet-filter-container select,
+  .pet-filter-container input {
+    padding: 0.5rem 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+  }
+  
+  .pet-filter-container select:focus,
+  .pet-filter-container input:focus {
+    border-color: #0077ff;
+    outline: none;
+  }
+  
+  /* Card grid */
+  .pet-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    overflow-y: auto;
+    max-height: 70vh;
+    padding-bottom: 2rem;
+  }
+  
+  /* Scrollbar cleanup */
+  .pet-grid::-webkit-scrollbar {
+    width: 6px;
+  }
+  .pet-grid::-webkit-scrollbar-thumb {
+    background-color: #dcdcdc;
+    border-radius: 10px;
+  }
+  
+  /* PetCard styling (if you're using your own component) */
+  .pet-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 280px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .pet-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .pet-filter-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .pet-list-title {
+      font-size: 2rem;
+    }
+  
+    .pet-card {
+      width: 90%;
+    }
+  }
+  
+  

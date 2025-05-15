@@ -51,8 +51,7 @@ const faqs = [
     a: "Absolutely! You can schedule a visit with the shelter through Waggle.",
   },
 ];
-
-const LandingPage = () => {
+const LandingPage = ({ setUser }) => {
   const [open, setOpen] = useState(false);
   const [signInForm, setSignInForm] = useState({ username: "", password: "" });
   const [signInType, setSignInType] = useState("user");
@@ -110,7 +109,6 @@ const LandingPage = () => {
         >
           The easiest way to adopt a pet from local shelters.
         </Typography>
-
         <div className="Sign-up">
           <div
             style={{ display: "flex", justifyContent: "center", gap: "16px" }}
@@ -172,7 +170,6 @@ const LandingPage = () => {
                 onChange={handleChange}
                 required
               />
-
               {error && (
                 <Typography color="error" variant="body2">
                   {error}
@@ -189,21 +186,17 @@ const LandingPage = () => {
         </Dialog>
       </div>
       {/* HOW IT WORKS */}
-
       <div className="how-waggle-works">
         <h2>How Waggle Works</h2>
-
         <div className="waggle-cards">
           <div className="waggle-card">
             <h3>1. Create Your Profile</h3>
             <p>Sign up and tell us about yourself or your organization.</p>
           </div>
-
           <div className="waggle-card">
             <h3>2. Browse Pets</h3>
             <p>Explore a list of pets looking for homes.</p>
           </div>
-
           <div className="waggle-card">
             <h3>3. Apply & Adopt</h3>
             <p>Submit your adoption request and connect with a shelter!</p>
@@ -286,5 +279,4 @@ const LandingPage = () => {
     </div>
   );
 };
-
 export default LandingPage;

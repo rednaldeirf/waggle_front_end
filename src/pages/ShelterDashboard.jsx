@@ -82,7 +82,7 @@ const navigate = useNavigate ()
           <h2 className="text-xl font-semibold mb-4">Add New Pet</h2>
           <Card>
             <CardContent>
-              {/* <NewPetForm /> */}
+              <NewPetForm />
             </CardContent>
           </Card>
         </div>

@@ -1,96 +1,295 @@
-import React, { useState, useEffect } from 'react'           // you need React + hooks
+import React, { useState, useEffect, useContext } from 'react'
 import NewPetForm from '../components/NewPetForm'
-import { fetchPets } from '../services/pets'
+import { fetchPets, deletePet } from '../services/pets'
+import { getShelterInquiries } from '../services/shelters'
 import { useNavigate } from 'react-router-dom'
-// only include Tabs if you actually use them:
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from '../components/ui/tabs'
-
-import { Card, CardHeader, CardContent } from '../components/ui/card'
-import PetCard    from '../components/PetCard'
-import AdoptionForm from "./AdoptionForm";
+import { 
+  Container, 
+  Grid, 
+  Card, 
+  CardContent, 
+  Typography, 
+  Button,
+  Box,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  Fab,
+  DialogActions,
+  DialogContentText
+} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import CloseIcon from '@mui/icons-material/Close'
+import PetCard from '../components/PetCard'
+import { UserContext } from '../contexts/UserContext'
 
 export default function ShelterDashboard() {
   const [pets, setPets] = useState([])
-  const [pending, setPending] = useState([])
-const navigate = useNavigate ()
-  // fetch your data in useEffect…
- useEffect(() => {
-    async function loadData() {
-        console.log("hey")
-      const allPets = await fetchPets();
-      console.log({allPets})
-      setPets(allPets);
-    
-      
-    }
+  const [pendingCount, setPendingCount] = useState(0)
+  const [formOpen, setFormOpen] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [petToDelete, setPetToDelete] = useState(null)
+  const navigate = useNavigate()
+  const { shelter } = useContext(UserContext)
+
+  useEffect(() => {
     loadData();
-  }, []);
-  
+  }, [shelter]);
+
+  const loadData = async () => {
+    try {
+      const allPets = await fetchPets("");
+      const shelterPets = allPets.filter(pet => {
+        const petShelterId = pet.shelter?.id || pet.shelter;
+        const matches = petShelterId === shelter.id;
+        return matches;
+      });
+      setPets(shelterPets);
+
+      if (shelter) {
+        const inquiries = await getShelterInquiries(shelter.id);
+        const pendingInquiries = inquiries.filter(inquiry => inquiry.status === 'Pending');
+        setPendingCount(pendingInquiries.length);
+      }
+    } catch (err) {
+      console.error("Error loading data:", err)
+    }
+  };
+
+  const handlePetAdded = async (newPet) => {
+    await loadData();
+    setFormOpen(false);
+  };
+
+  const handleDeleteClick = (petId) => {
+    setPetToDelete(petId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deletePet(petToDelete);
+      await loadData();
+      setDeleteDialogOpen(false);
+      setPetToDelete(null);
+    } catch (err) {
+      console.error("Error deleting pet:", err);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setPetToDelete(null);
+  };
+
   return (
-    <div className="p-6 space-y-8">
-      {/* 1) Stats row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader>Total Pets</CardHeader>
-          <CardContent className="text-3xl font-bold">{pets.length}</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>Pending Applications</CardHeader>
-          <CardContent className="text-3xl font-bold">{pending.length}</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>Adopted This Month</CardHeader>
-          <CardContent className="text-3xl font-bold">12</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>Active Shelters</CardHeader>
-          <CardContent className="text-3xl font-bold">3</CardContent>
-        </Card>
-      </div>
-
-      {/* 2) Main content grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Pending table */}
-        <div className="lg:col-span-2">
-          <h2 className="text-xl font-semibold mb-4">Pending Adoptions</h2>
-          <Card>
+    <Container maxWidth="lg" sx={{ py: 4, position: 'relative' }}>
+      {/* Stats row */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} lg={3}>
+          <Card sx={{ height: '100%' }}>
             <CardContent>
-              {/* Replace this with a table or list */}
-              {/* {pending.map((app) => (
-                <div key={app.id} className="flex justify-between py-2 border-b">
-                  <span>{app.petName}</span>
-                  <span className="text-sm text-gray-500">{app.status}</span>
-                </div>
-              ))} */}
-{pets && pets.map(pet=> {
-   return  <PetCard key={pet.id}
-    pet={pet}
-    onClick={() => navigate(`/pet/${pet.id}`)} />
-    
-})}
-
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Total Pets
+              </Typography>
+              <Typography variant="h3" component="div">
+                {pets.length}
+              </Typography>
             </CardContent>
           </Card>
-        </div>
-
-        {/* Right: Quick add form */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Add New Pet</h2>
-          <Card>
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3}>
+          <Card 
+            sx={{ 
+              height: '100%', 
+              cursor: 'pointer',
+              '&:hover': { bgcolor: 'action.hover' }
+            }}
+            onClick={() => navigate('/shelter/inquiries')}
+          >
             <CardContent>
-              <NewPetForm />
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Pending Applications
+              </Typography>
+              <Typography variant="h3" component="div">
+                {pendingCount}
+              </Typography>
             </CardContent>
           </Card>
-        </div>
-      </div>
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Adopted This Month
+              </Typography>
+              <Typography variant="h3" component="div">
+                {pets.filter(pet => pet.is_adopted).length}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* <Grid item xs={12} sm={6} lg={3}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Active Shelters
+              </Typography>
+              <Typography variant="h3" component="div">
+                3
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid> */}
+      </Grid>
 
-      {/* 3) (Optional) Charts or Recent Activity */}
-      {/* e.g. use recharts or chart.js components here */}
-    </div>
+      {/* Main content grid */}
+      <Grid container spacing={3}>
+        {/* Pets Grid */}
+        <Grid item xs={12}>
+          <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h5" component="h2">
+              Available Pets
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                variant="contained"
+                onClick={() => navigate('/shelter/inquiries')}
+              >
+                View All Inquiries
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => setFormOpen(true)}
+              >
+                Add New Pet
+              </Button>
+            </Box>
+          </Box>
+          <Paper sx={{ p: 2, mb: 4 }}>
+            <Grid container spacing={2}>
+              {pets && pets
+                .filter(pet => !pet.is_adopted)
+                .map(pet => (
+                  <Grid item xs={12} sm={6} md={4} key={pet.id}>
+                    <PetCard 
+                      pet={pet}
+                      onClick={() => navigate(`/pet/${pet.id}`)}
+                      onDelete={handleDeleteClick}
+                      isDashboard={true}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          </Paper>
+
+          {/* Adopted Pets Section */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h5" component="h2">
+              Adopted Pets
+            </Typography>
+          </Box>
+          <Paper sx={{ p: 2 }}>
+            <Grid container spacing={2}>
+              {pets && pets
+                .filter(pet => pet.is_adopted)
+                .map(pet => (
+                  <Grid item xs={12} sm={6} md={4} key={pet.id}>
+                    <PetCard 
+                      pet={pet}
+                      onClick={() => navigate(`/pet/${pet.id}`)}
+                      isDashboard={false}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/* Add Pet Dialog */}
+      <Dialog 
+        open={formOpen} 
+        onClose={() => setFormOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: 24
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          m: 0, 
+          p: 2, 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          bgcolor: 'primary.main',
+          color: 'white'
+        }}>
+          <Typography variant="h6" component="div">
+            Add New Pet
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={() => setFormOpen(false)}
+            sx={{
+              color: 'white',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.1)'
+              }
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ p: 3 }}>
+          <NewPetForm onPetAdded={handlePetAdded} />
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+        PaperProps={{
+          sx: {
+            borderRadius: 2
+          }
+        }}
+      >
+        <DialogTitle>Delete Pet</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this pet? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel}>Cancel</Button>
+          <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Floating Action Button for Mobile */}
+      <Fab
+        color="primary"
+        sx={{
+          position: 'fixed',
+          bottom: 16,
+          right: 16,
+          display: { sm: 'none' }
+        }}
+        onClick={() => setFormOpen(true)}
+      >
+        <AddIcon />
+      </Fab>
+    </Container>
   )
 }

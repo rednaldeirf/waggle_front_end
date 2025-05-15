@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PetCard from "../components/PetCard";
 import PetFilter from "../components/PetFilter";
-import { fetchPets, fetchBreeds, fetchShelters } from "../services/pets";
+import { fetchPets } from "../services/pets";
 import "./PetList.css";
 
 
@@ -38,14 +38,14 @@ function PetList() {
             Available {type === "dog" ? "Dogs" : "Cats"}
           </h1>
       
-          <PetFilter
+          {/* <PetFilter
             breeds={breeds}
             shelters={shelters}
             selectedBreed={selectedBreed}
             selectedShelter={selectedShelter}
             onBreedChange={setSelectedBreed}
             onShelterChange={setSelectedShelter}
-          />
+          /> */}
       
           <div className="pet-grid">
             {filteredPets.map((pet) => (

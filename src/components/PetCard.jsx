@@ -55,9 +55,13 @@
 
 // src/components/PetCard.jsx
 import React from 'react'
+import { Chip, Box, Card, CardMedia, CardContent, Typography, Button } from '@mui/material'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-export default function PetCard({ pet, onClick }) {
-  const { name, description, age, species, image_url } = pet
+export default function PetCard({ pet, onClick, onDelete, isDashboard = false }) {
+  const { name, description, age, species, breed, image_url, is_adopted } = pet
 
   // Optional: truncate description
   const shortDesc =
@@ -66,31 +70,76 @@ export default function PetCard({ pet, onClick }) {
       : description
 
   return (
-    <div
-      onClick={onClick}
-      className="
-        max-w-sm bg-white border border-gray-200 rounded-lg 
-        shadow-md overflow-hidden cursor-pointer 
-        hover:shadow-lg transition-shadow duration-200
-      "
+    <Card
+      sx={{
+        width: '280px',
+        height: '400px',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'box-shadow 0.2s ease-in-out',
+        '&:hover': {
+          boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+        }
+      }}
     >
-      {image_url && (
-        <img
-          src={image_url}
-          alt={name}
-          className="w-full h-48 object-cover"
+      <Box sx={{ position: 'relative' }}>
+        {image_url && (
+          <CardMedia
+            component="img"
+            height="200"
+            image={image_url}
+            alt={name}
+            onClick={onClick}
+            sx={{
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'scale(1.05)'
+              }
+            }}
+          />
+        )}
+        <Chip
+          icon={is_adopted ? <CheckCircleIcon /> : <CancelIcon />}
+          label={is_adopted ? "Adopted" : "Available"}
+          color={is_adopted ? "success" : "error"}
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            fontWeight: 'bold'
+          }}
         />
-      )}
-      <div className="p-4">
-        <h3 className="text-xl font-bold text-gray-800">{name}</h3>
-        <p className="text-sm text-gray-500 mb-2">
-          {species} • {age} {age === 1 ? 'year' : 'years'} old
-        </p>
-        <p className="text-gray-700 text-base">
+      </Box>
+      <CardContent sx={{ 
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        p: 2
+      }}>
+        <Typography variant="h6" component="h3" gutterBottom>
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          {species} • {breed} • {age} {age === 1 ? 'year' : 'years'} old
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ flex: 1 }}>
           {shortDesc}
-        </p>
-      </div>
-    </div>
+        </Typography>
+        {isDashboard && (
+          <Button
+            variant="outlined"
+            color="error"
+            startIcon={<DeleteIcon />}
+            onClick={() => onDelete(pet.id)}
+            sx={{ mt: 2 }}
+          >
+            Delete Pet
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   )
 }
 

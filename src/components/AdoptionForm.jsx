@@ -1,9 +1,29 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { createInquiry } from "../services/pets";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Alert,
+  CircularProgress
+} from '@mui/material';
+import PetsIcon from '@mui/icons-material/Pets';
+import HomeIcon from '@mui/icons-material/Home';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PersonIcon from '@mui/icons-material/Person';
+import MessageIcon from '@mui/icons-material/Message';
 
-const AdoptionForm = () => {
-  const { petId } = useParams();
+const AdoptionForm = ({ setShowModal }) => {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -11,6 +31,7 @@ const AdoptionForm = () => {
     address: "",
     prior_experience: "",
     currently_own_pet: "",
+    message: ""
   });
 
   const handleChange = (e) => {
@@ -20,113 +41,162 @@ const AdoptionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+    
     try {
       const payload = {
         ...formData,
         prior_experience: formData.prior_experience === "yes",
         currently_own_pet: formData.currently_own_pet === "yes",
+        message: formData.message || `Hi! I'm interested in adopting this pet.`
       };
-      await axios.post(`/api/pets/${petId}/inquiries/`, payload);
-      alert("Inquiry submitted!");
+      await createInquiry(id, payload);
+
       setFormData({
         full_name: "",
         phone_number: "",
         address: "",
         prior_experience: "",
         currently_own_pet: "",
+        message: ""
       });
+      setShowModal(false);
     } catch (err) {
       console.error(err);
-      alert("Submission failed. Please try again.");
+      setError("Failed to submit inquiry. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen dark">
-      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold text-gray-200 mb-4">
-          Adoption Inquiry
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            name="full_name"
-            type="text"
-            value={formData.full_name}
+    <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <TextField
+          name="full_name"
+          label="Full Name"
+          value={formData.full_name}
+          onChange={handleChange}
+          required
+          fullWidth
+          InputProps={{
+            startAdornment: <PersonIcon sx={{ mr: 1, color: 'text.secondary' }} />
+          }}
+        />
+
+        <TextField
+          name="phone_number"
+          label="Phone Number"
+          type="tel"
+          value={formData.phone_number}
+          onChange={handleChange}
+          required
+          fullWidth
+          InputProps={{
+            startAdornment: <PhoneIcon sx={{ mr: 1, color: 'text.secondary' }} />
+          }}
+        />
+
+        <TextField
+          name="address"
+          label="Address"
+          value={formData.address}
+          onChange={handleChange}
+          required
+          fullWidth
+          InputProps={{
+            startAdornment: <HomeIcon sx={{ mr: 1, color: 'text.secondary' }} />
+          }}
+        />
+
+        <FormControl component="fieldset" required>
+          <FormLabel component="legend">
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <PetsIcon color="primary" />
+              <Typography>Prior experience raising a pet?</Typography>
+            </Box>
+          </FormLabel>
+          <RadioGroup
+            name="prior_experience"
+            value={formData.prior_experience}
             onChange={handleChange}
-            placeholder="Full Name"
-            className="w-full bg-gray-700 text-gray-200 rounded-md p-2 focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
-            required
-          />
-
-          <input
-            name="phone_number"
-            type="tel"
-            value={formData.phone_number}
-            onChange={handleChange}
-            placeholder="Phone Number"
-            className="w-full bg-gray-700 text-gray-200 rounded-md p-2 focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
-            required
-          />
-
-          <input
-            name="address"
-            type="text"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Address"
-            className="w-full bg-gray-700 text-gray-200 rounded-md p-2 focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
-            required
-          />
-
-          <div className="text-gray-200">
-            <p className="mb-1">Prior experience raising a pet?</p>
-            {["yes", "no"].map((opt) => (
-              <label key={opt} className="inline-flex items-center mr-4">
-                <input
-                  type="radio"
-                  name="prior_experience"
-                  value={opt}
-                  checked={formData.prior_experience === opt}
-                  onChange={handleChange}
-                  className="form-radio text-blue-500"
-                  required
-                />
-                <span className="ml-2">
-                  {opt.charAt(0).toUpperCase() + opt.slice(1)}
-                </span>
-              </label>
-            ))}
-          </div>
-
-          <div className="text-gray-200">
-            <p className="mb-1">Do you currently own a pet?</p>
-            {["yes", "no"].map((opt) => (
-              <label key={opt} className="inline-flex items-center mr-4">
-                <input
-                  type="radio"
-                  name="currently_own_pet"
-                  value={opt}
-                  checked={formData.currently_own_pet === opt}
-                  onChange={handleChange}
-                  className="form-radio text-blue-500"
-                  required
-                />
-                <span className="ml-2">
-                  {opt.charAt(0).toUpperCase() + opt.slice(1)}
-                </span>
-              </label>
-            ))}
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-2 rounded-md hover:from-indigo-600 hover:to-blue-600 transition"
+            row
           >
-            Submit Inquiry
-          </button>
-        </form>
-      </div>
-    </div>
+            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+            <FormControlLabel value="no" control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>
+
+        <FormControl component="fieldset" required>
+          <FormLabel component="legend">
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <PetsIcon color="primary" />
+              <Typography>Do you currently own a pet?</Typography>
+            </Box>
+          </FormLabel>
+          <RadioGroup
+            name="currently_own_pet"
+            value={formData.currently_own_pet}
+            onChange={handleChange}
+            row
+          >
+            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+            <FormControlLabel value="no" control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>
+
+        <TextField
+          name="message"
+          label="Message to Shelter"
+          value={formData.message}
+          onChange={handleChange}
+          multiline
+          rows={4}
+          placeholder="Tell the shelter why you're interested in adopting this pet..."
+          fullWidth
+          InputProps={{
+            startAdornment: <MessageIcon sx={{ mr: 1, color: 'text.secondary', alignSelf: 'flex-start', mt: 1 }} />
+          }}
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          disabled={loading}
+          sx={{
+            mt: 2,
+            py: 1.5,
+            position: 'relative'
+          }}
+        >
+          {loading ? (
+            <>
+              <CircularProgress
+                size={24}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
+                }}
+              />
+              <span style={{ visibility: 'hidden' }}>Submit Inquiry</span>
+            </>
+          ) : (
+            'Submit Inquiry'
+          )}
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

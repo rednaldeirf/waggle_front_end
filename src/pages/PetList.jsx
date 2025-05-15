@@ -7,32 +7,29 @@ import "./PetList.css";
 
 
 function PetList() {
-  const { type } = useParams(); // 'dog' or 'cat'
-  const navigate = useNavigate();
   const [pets, setPets] = useState([]);
   const [filteredPets, setFilteredPets] = useState([]);
-  const [breeds, setBreeds] = useState([]);
-  const [shelters, setShelters] = useState([]);
-  const [selectedBreed, setSelectedBreed] = useState("");
-  const [selectedShelter, setSelectedShelter] = useState("");
+//   const [selectedBreed, setSelectedBreed] = useState("");
+//   const [selectedShelter, setSelectedShelter] = useState("");
+
+  const { type } = useParams(); // 'dog' or 'cat'
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadData() {
       const allPets = await fetchPets(type);
       setPets(allPets);
       setFilteredPets(allPets);
-      setBreeds(await fetchBreeds(type));
-      setShelters(await fetchShelters());
     }
     loadData();
   }, [type]);
 
-  useEffect(() => {
-    let results = pets;
-    if (selectedBreed) results = results.filter(pet => pet.breed === selectedBreed);
-    if (selectedShelter) results = results.filter(pet => pet.shelter_id === selectedShelter);
-    setFilteredPets(results);
-  }, [selectedBreed, selectedShelter, pets]);
+//   useEffect(() => {
+//     let results = pets;
+//     if (selectedBreed) results = results.filter(pet => pet.breed === selectedBreed);
+//     if (selectedShelter) results = results.filter(pet => pet.shelter_id === selectedShelter);
+//     setFilteredPets(results);
+//   }, [selectedBreed, selectedShelter, pets]);
 
   return (
     

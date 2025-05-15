@@ -60,7 +60,7 @@ const NavBar = () => {
                   Dashboard
                 </Link>
                 <Link 
-                  to="/inquiries" 
+                  to="/shelter/inquiries" 
                   style={{ 
                     textDecoration: 'none', 
                     color: '#4CAF50',
@@ -99,18 +99,6 @@ const NavBar = () => {
                 >
                   Pet List
                 </Link>
-                {/* <Link 
-                  to="/pets" 
-                  style={{ 
-                    textDecoration: 'none', 
-                    color: '#4CAF50',
-                    padding: '8px 16px',
-                    border: '1px solid #4CAF50',
-                    borderRadius: '4px'
-                  }}
-                >
-                  Pet List
-                </Link> */}
               </>
             )}
             {/* Sign out button */}
@@ -147,7 +135,7 @@ const NavBar = () => {
             >
               Sign Up
             </Link>
-            <Link 
+            {/* <Link 
               to="/" 
               style={{ 
                 textDecoration: 'none', 
@@ -158,7 +146,7 @@ const NavBar = () => {
               }}
             >
               Sign In
-            </Link>
+            </Link> */}
           </div>
         )}
       </div>

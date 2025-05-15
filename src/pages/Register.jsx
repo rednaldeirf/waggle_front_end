@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../services/users";
-import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  ToggleButtonGroup,
+  ToggleButton,
+  Alert,
+  Link
+} from "@mui/material";
 import { UserContext } from "../contexts/UserContext";
-import { useContext } from "react";
 
 function Register() {
   const navigate = useNavigate();
@@ -62,73 +72,147 @@ function Register() {
   }
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <ToggleButtonGroup
-          value={registrationType}
-          exclusive
-          onChange={handleRegistrationTypeChange}
-          sx={{ mb: 2, width: "100%" }}
-        >
-          <ToggleButton value="user" sx={{ flex: 1 }}>
-            User
-          </ToggleButton>
-          <ToggleButton value="shelter" sx={{ flex: 1 }}>
-            Shelter
-          </ToggleButton>
-        </ToggleButtonGroup>
+    <Container maxWidth="sm" sx={{ py: 8 }}>
+      <Paper 
+        elevation={3} 
+        sx={{ 
+          p: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Typography variant="h4" component="h1" gutterBottom>
+          Create an Account
+        </Typography>
+        
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', mt: 2 }}>
+          <ToggleButtonGroup
+            value={registrationType}
+            exclusive
+            onChange={handleRegistrationTypeChange}
+            sx={{ mb: 3, width: "100%" }}
+          >
+            <ToggleButton 
+              value="user" 
+              sx={{ 
+                flex: 1,
+                py: 1.5,
+                '&.Mui-selected': {
+                  bgcolor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  }
+                }
+              }}
+            >
+              User
+            </ToggleButton>
+            <ToggleButton 
+              value="shelter" 
+              sx={{ 
+                flex: 1,
+                py: 1.5,
+                '&.Mui-selected': {
+                  bgcolor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    bgcolor: 'primary.dark',
+                  }
+                }
+              }}
+            >
+              Shelter
+            </ToggleButton>
+          </ToggleButtonGroup>
 
-        <input
-          type="text"
-          name="username"
-          value={form.username}
-          placeholder="Username"
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Username"
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+          />
 
-        {registrationType === "shelter" && (
-          <>
-            <input
-              type="text"
-              name="shelter_name"
-              value={form.shelter_name}
-              placeholder="Shelter Name"
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="shelter_location"
-              value={form.shelter_location}
-              placeholder="Shelter Location"
-              onChange={handleChange}
-              required
-            />
-          </>
-        )}
+          {registrationType === "shelter" && (
+            <>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                label="Shelter Name"
+                name="shelter_name"
+                value={form.shelter_name}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                label="Shelter Location"
+                name="shelter_location"
+                value={form.shelter_location}
+                onChange={handleChange}
+              />
+            </>
+          )}
 
-        {form.isError && <div style={{ color: "red" }}>{form.errorMsg}</div>}
-        <button type="submit">Register</button>
-      </form>
-    </div>
+          {form.isError && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {form.errorMsg}
+            </Alert>
+          )}
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            size="large"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Register
+          </Button>
+
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              Already have an account?{' '}
+              <Link 
+                component="button"
+                variant="body2"
+                onClick={() => navigate('/')}
+                sx={{ cursor: 'pointer' }}
+              >
+                Sign In
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 
